@@ -1,79 +1,64 @@
 ## Notes on Project Materials
 
-The PDFs included in this projects were originally created for presentations at the time and have been preserved since then.  
-While they may now appear somewhat preliminary, they capture a valuable process focused on underlying technical design and system thinking.
+The PDF included in this repository was originally prepared for project presentation. Although it may reflect the presentation style and documentation standards of the time, it preserve the technical design, analytical process, and modeling decisions behind the project.
 
-They provide a full-picture view of the end-to-end modeling workflow, including:
-- Problem definition  
-- Data exploration  
-- Data cleaning  
-- Model architecture design  
-- Model development  
-- Model offline evaluation  
+It provide an overview of the end-to-end modeling workflow, including:
+- Problem definition
+- Data exploration and processing
+- Feature engineering
+- Model design and development
+- Offline evaluation
 
-These materials may be particularly helpful for anyone seeking a deeper understanding of the complete modeling pipeline and the technical reasoning behind it. You can also gain a solid overview by reviewing the README sections below for each project.
+For a broader overview, please also refer to the project description below.
 
-For a complete overview of my projects, feel free to visit my LinkedIn:  
-### https://www.linkedin.com/in/qinluu  
+For more projects and technical discussions, visit my LinkedIn:  
+https://www.linkedin.com/in/qinluu
 
-I’m always happy to connect, share, and discuss.
+I'm always happy to connect and exchange ideas.
 
 ---
 
-## Demand Forecasting for Rémy Products on JD Marketplace
+## Demand Forecasting for Rémy Products on JD.com
 
-📂 Project Overview
+### Project Overview
 
-This project was initiated as a high-stakes feasibility study for a VIP client in the luxury spirits sector (Rémy Cointreau). The objective was to infer monthly sales volumes on the JD.com platform using unstructured consumer comment metadata as a proxy.
-Despite significant data constraints and high noise levels, this "impossible task" resulted in a mathematical framework that the client successfully adopted to inform their marketing strategies and inventory management with R2 score at 0.86.
+This project explored monthly sales forecasting for Rémy products on JD.com using consumer review data, business logic, mathematical estimation, and machine learning.
 
-________________________________________
-📂 Technical Challenges & Complexity
+As reliable ground-truth sales data was unavailable, the project was positioned as an exploratory forecasting initiative, with data limitations communicated to and approved by the client before development.
 
-Predicting sales from comment data presents several non-trivial hurdles:
+The objective was to estimate calendar-month sales volumes from review activity, developing a forecasting framework that could support marketing and inventory planning despite significant data limitations.
 
-•	Sparse & Noisy Data: Fragmented datasets due to system migrations, with some products having only 1–3 data points per month.
+### Technical Challenges
 
-•	Dynamic Entity Mapping: Product "Keys" on JD.com are non-static; a single ID might represent Red Wine for one quarter and be repurposed for White Wine the next.
+- **Sparse and Noisy Data:** Platform migration and inconsistent historical records created substantial data cleaning and validation challenges.
+- **Dynamic Product Identifiers:** Product IDs and their associated information could change over time, requiring careful validation before records could be used for modeling.
+- **Long-Tail Distribution:** Sales patterns varied considerably across products, making it difficult to develop a consistent forecasting approach.
+- **Uncertain Review-to-Sales Relationships:** Review timestamps did not necessarily correspond to transaction dates, making simple review-count-to-sales conversion unreliable.
+- **Data and Concept Drift:** Changes in platform data distributions and underlying patterns affected model reliability over time.
 
-•	Long-Tail Distribution: Highly imbalanced data across the alcoholic beverage category.
+### Methodology
 
-•	Signal Uncertainty: Determining if a correlation exists between the timing of a comment and the timing of a transaction.
+Rather than estimating sales from review-count differences using a fixed conversion coefficient, the approach combined mathematical estimation with LightGBM-based forecasting.
 
-________________________________________
-📂 Methodological Innovation: Mathematical Decomposition
+Key components included:
 
-To solve the lack of direct sales data, we developed a logic to derive Sales Volume ($V$) from Incremental Comments ($C$).
+- **Data Preparation:** Cleaned, validated, and transformed review data to address inconsistencies and improve feature quality.
+- **Cumulative Review Forecasting:** Predicted cumulative review counts at multiple future timestamps to capture temporal patterns.
+- **Mathematical Estimation:** Applied linear algebraic formulations to translate predicted review activity into sales estimates.
+- **Dynamic Parameter Optimization:** Used threshold-search strategies to estimate monthly weighting parameters, accommodating changes in business conditions and consumer behavior.
+- **Drift-Aware Adaptation:** Introduced drift-sensitive features and shortened the model retraining cycle from quarterly to monthly to improve adaptability.
 
-☑ The Core Hypothesis
-The relationship was modeled as a weighted sum of current and lagged comment activities:
-V_april = w1 * C1 + w2 * C2 + w3 * C3
-Where $w_n$ represents the conversion ratio of users who purchased in month $n$ but commented in April.
+### Business Value
 
-☑ Formula Optimization & Simplification
-Through continuous derivation and assumption testing, I simplified the complex multi-lag model into a more robust Dual-Variable Model:
-V_april = alpha1 * C1 + alpha2 * C2
-Testing proved that this Formula (B) significantly outperformed simpler single-variable models by capturing the "lagged" nature of consumer feedback while maintaining model stability.
+The project demonstrated the feasibility of extracting useful sales signals from publicly accessible e-commerce review data, even when reliable sales records were unavailable.
 
-☑ Dynamic Parameter Search
-Instead of static weights, I leveraged a parameter search approach using limited ground-truth sales samples to identify the optimal $\alpha_1$ and $\alpha_2$ for each specific month. This accounted for seasonal variations in consumer behavior (e.g., Chinese New Year or 6.18 shopping festivals).
-________________________________________
+The resulting framework achieved an offline R² score of 0.86 and provided the client with an additional reference for sales estimation and business planning.
 
-📂 Business Impact & Client Adoption
+The project also highlighted the importance of data quality, explicit assumptions, mathematical reasoning, and model adaptability when developing forecasting solutions under real-world data constraints.
 
-While initially framed as an exploratory experiment, the model's ability to capture sales trends from public-facing metadata provided the client with a unique competitive advantage:
+### Key Takeaways
 
-•	Strategic Pivot: Enabled the client to adjust marketing spend based on the "engagement-to-sales" lag identified by the model.
-
-•	Inventory Heuristics: Provided a reference point for stock replenishment in regions where direct sales data was delayed.
-
-•	Success out of "Impossibility": The client ultimately moved this from a "test case" to a production-referenced tool for internal decision-making.
-
-________________________________________
-📂 Key Takeaways
-
-☑ Mathematical Intuition: Ability to decompose business problems into solvable linear equations.
-
-☑ Client Management: Managed expectations for a "practically infeasible" project while delivering a "practically useful" outcome.
-
-☑ Data Scarcity Strategy: Expert at extracting signal from noisy, small, and long-tail datasets.
+- **Mathematical Modeling:** Translated a business problem with limited direct observations into a structured estimation framework.
+- **Data Engineering:** Addressed inconsistent records, sparse observations, and data quality issues before model development.
+- **Forecasting Under Uncertainty:** Combined business assumptions, mathematical estimation, and machine learning to address the absence of reliable ground-truth data.
+- **Model Adaptability:** Recognized the impact of data and concept drift and adjusted feature engineering and retraining strategies accordingly.
