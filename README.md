@@ -1,4 +1,4 @@
-## Notes on Project Materials
+## Notes on Project Material
 
 The PDF included in this repository was originally prepared for project presentation. Although it may reflect the presentation style and documentation standards of the time, it preserve the technical design, analytical process, and modeling decisions behind the project.
 
