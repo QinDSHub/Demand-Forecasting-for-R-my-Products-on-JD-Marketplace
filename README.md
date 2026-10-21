@@ -28,6 +28,8 @@ As reliable ground-truth sales data was unavailable, the project was positioned 
 
 The objective was to estimate calendar-month sales volumes from review activity, developing a forecasting framework that could support marketing and inventory planning despite significant data limitations.
 
+---
+
 ### Technical Challenges
 
 - **Sparse and Noisy Data:** Platform migration and inconsistent historical records created substantial data cleaning and validation challenges.
@@ -35,6 +37,8 @@ The objective was to estimate calendar-month sales volumes from review activity,
 - **Long-Tail Distribution:** Sales patterns varied considerably across products, making it difficult to develop a consistent forecasting approach.
 - **Uncertain Review-to-Sales Relationships:** Review timestamps did not necessarily correspond to transaction dates, making simple review-count-to-sales conversion unreliable.
 - **Data and Concept Drift:** Changes in platform data distributions and underlying patterns affected model reliability over time.
+
+---
 
 ### Methodology
 
@@ -48,6 +52,8 @@ Key components included:
 - **Dynamic Parameter Optimization:** Used threshold-search strategies to estimate monthly weighting parameters, accommodating changes in business conditions and consumer behavior.
 - **Drift-Aware Adaptation:** Introduced drift-sensitive features and shortened the model retraining cycle from quarterly to monthly to improve adaptability.
 
+---
+
 ### Business Value
 
 The project demonstrated the feasibility of extracting useful sales signals from publicly accessible e-commerce review data, even when reliable sales records were unavailable.
@@ -55,6 +61,8 @@ The project demonstrated the feasibility of extracting useful sales signals from
 The resulting framework achieved an offline R² score of 0.86 and provided the client with an additional reference for sales estimation and business planning.
 
 The project also highlighted the importance of data quality, explicit assumptions, mathematical reasoning, and model adaptability when developing forecasting solutions under real-world data constraints.
+
+---
 
 ### Key Takeaways
 
